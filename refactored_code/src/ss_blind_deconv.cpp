@@ -248,7 +248,6 @@ int ss_blind_deconv(cv::Mat& y, cv::Mat& x, cv::Mat& k, float lambda,
 		opts.delta = delta;
 
 		// set up options for the kernel estimation
-		opts.use_fft = 1;
 		opts.lambda = opts.k_reg_wt;
 		opts.pcg_tol = 1e-4;
 		opts.pcg_its = 1;

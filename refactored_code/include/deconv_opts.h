@@ -67,9 +67,6 @@ public:
 
 	int kernel_size;
 
-    // TODO: Unused
-	bool use_fft;
-
 	/// Maximal resudual tolerance for CG solution
 	float pcg_tol;
 

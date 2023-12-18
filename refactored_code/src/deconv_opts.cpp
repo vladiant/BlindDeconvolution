@@ -23,7 +23,6 @@ BlindDeblurOptions::BlindDeblurOptions() {
 	nb_alpha = 1.0;
 	use_ycbcr = 1;
 	kernel_size = 31;
-	use_fft = true;
 	pcg_tol=1e-4;
 	pcg_its = 1;
 }
