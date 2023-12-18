@@ -1,21 +1,13 @@
-/*
- * main.cpp
- *
- *  Created on: Jan 9, 2014
- *      Author: vladiant
- */
+//  This package contains the implementation of the blind deconvolution
+//  algorithm presented in the paper:
+//
+//  "Blind Deconvolution using a Normalized Sparsity Measure", Dilip
+//  Krishnan, Terence Tay and Rob Fergus.
+//
+//  Use of this code is free for research purposes only.
+//
+//  (c) Dilip Krishnan, Rob Fergus. Email: dilip@cs.nyu.edu, May 2011.
 
-/*
- * This package contains the implementation of the blind deconvolution
- algorithm presented in the paper:
-
- "Blind Deconvolution using a Normalized Sparsity Measure", Dilip
- Krishnan, Terence Tay and Rob Fergus.
-
- Use of this code is free for research purposes only.
-
- (c) Dilip Krishnan, Rob Fergus. Email: dilip@cs.nyu.edu, May 2011.
- */
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -26,7 +18,7 @@
 #include "deconv_opts.h"
 #include "ms_blind_deconv.h"
 
-#define BLURRED_IMAGE_NAME "pietro.tif"
+constexpr auto kBlurredImageName = "pietro.tif";
 
 int main(int argc, char* argv[]) {
 
@@ -35,8 +27,8 @@ int main(int argc, char* argv[]) {
 		std::cout << "Loading " << argv[1] << std::endl;
 		blurredImage = cv::imread(argv[1]);
 	} else {
-		blurredImage = cv::imread(BLURRED_IMAGE_NAME);
-		std::cout << "Loading " << BLURRED_IMAGE_NAME << std::endl;
+		blurredImage = cv::imread(kBlurredImageName);
+		std::cout << "Loading " << kBlurredImageName << std::endl;
 	}
 
 	if (blurredImage.empty()) {
