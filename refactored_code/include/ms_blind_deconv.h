@@ -22,7 +22,7 @@
 // Copyright (2011): Dilip Krishnan, Rob Fergus, New York University.
 //
 
-void ms_blind_deconv(cv::Mat& blurredImage, BlindDeblurOptions& opts,
+void ms_blind_deconv(cv::Mat& blurredImage, const BlindDeblurOptions& opts,
 		cv::Mat& kernelImage, cv::Mat& deblurredImage);
 
 void init_kernel(int minsize, cv::Mat& k);

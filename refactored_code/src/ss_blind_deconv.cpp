@@ -12,7 +12,7 @@
 #include <iostream>
 
 int ss_blind_deconv(cv::Mat& y, cv::Mat& x, cv::Mat& k, float lambda,
-		BlindDeblurOptions& opts) {
+		const BlindDeblurOptions& opts) {
 
 	//
 	// Do single-scale blind deconvolution using the input initializations

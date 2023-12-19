@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 	cv::Mat kernelImage;
 	cv::Mat deblurredImage = blurredImage.clone();
 
-	BlindDeblurOptions opts;
+	const BlindDeblurOptions opts;
 
 	ms_blind_deconv(blurredImage, opts, kernelImage, deblurredImage);
 

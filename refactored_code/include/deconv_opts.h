@@ -2,6 +2,8 @@
 
 #include <opencv2/core/types.hpp>
 
+// TODO: Refactor mutable fields
+
 /// TODO: Set these as predefined presets
 /// Note that the min_lambda parameter should be varied for different images to
 /// give better results.
@@ -26,7 +28,7 @@ public:
 	float min_lambda;
 
 	/// weight of the likelihood term
-	float lambda;
+	mutable float lambda;
 
 	/// Kernel regularization weight
 	float k_reg_wt;
@@ -45,7 +47,7 @@ public:
 	/// delta step size for ISTA updates; increasing this delta size is not a
 	/// good idea since it may cause divergence. On the other hand decreasing
 	/// it too much will make convergence much slower.
-	float delta;
+	mutable float delta;
 
 	/// inner iterations for x estimation
 	int x_in_iter;
@@ -68,10 +70,10 @@ public:
 	int kernel_size;
 
 	/// Maximal resudual tolerance for CG solution
-	float pcg_tol;
+	mutable float pcg_tol;
 
 	/// Maximal iterations for CG solution 
-	int pcg_its;
+	mutable int pcg_its;
 
 	BlindDeblurOptions();
 };

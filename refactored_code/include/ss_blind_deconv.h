@@ -15,6 +15,6 @@
 #include "deconv_opts.h"
 
 int ss_blind_deconv(cv::Mat& y, cv::Mat& x, cv::Mat& k, float lambda,
-		BlindDeblurOptions& opts);
+		const BlindDeblurOptions& opts);
 
 #endif /* SS_BLIND_DECONV_H_ */
