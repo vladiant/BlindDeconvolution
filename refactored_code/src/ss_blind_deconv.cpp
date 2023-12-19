@@ -12,7 +12,7 @@
 #include <iostream>
 
 int ss_blind_deconv(cv::Mat& y, cv::Mat& x, cv::Mat& k, float lambda,
-		const BlindDeblurOptions& opts) {
+		const BlindDeblurOptions& opts, BlindDeblurContext& aContext) {
 
 	//
 	// Do single-scale blind deconvolution using the input initializations
@@ -94,7 +94,7 @@ int ss_blind_deconv(cv::Mat& y, cv::Mat& x, cv::Mat& k, float lambda,
 	mask2 = cv::Scalar(1.0);
 
 	float lambda_orig = lambda;
-	float delta_orig = opts.delta;
+	float delta_orig = aContext.delta;
 
 	// x update step
 	for (int iter = 0; iter < opts.xk_iter; iter++) {
@@ -110,7 +110,7 @@ int ss_blind_deconv(cv::Mat& y, cv::Mat& x, cv::Mat& k, float lambda,
 		x1[0].copyTo(x2[0]);
 		x1[1].copyTo(x2[1]);
 
-		float delta = opts.delta;
+		float delta = aContext.delta;
 		while (delta > 1e-4) {
 
 			// TODO: Debug print
@@ -142,7 +142,7 @@ int ss_blind_deconv(cv::Mat& y, cv::Mat& x, cv::Mat& k, float lambda,
 					}
 
 					totiter++;
-					opts.lambda = lambda;
+					aContext.lambda = lambda;
 					std::vector<cv::Mat> x1prev(2);
 					x1[0].copyTo(x1prev[0]);
 					x1[1].copyTo(x1prev[1]);
@@ -245,15 +245,15 @@ int ss_blind_deconv(cv::Mat& y, cv::Mat& x, cv::Mat& k, float lambda,
 
 		} // while (delta > 1e-4) ...
 
-		opts.delta = delta;
+		aContext.delta = delta;
 
 		// set up options for the kernel estimation
-		opts.lambda = opts.k_reg_wt;
-		opts.pcg_tol = 1e-4;
-		opts.pcg_its = 1;
+		aContext.lambda = opts.k_reg_wt;
+		aContext.pcg_tol = 1e-4;
+		aContext.pcg_its = 1;
 
 		cv::Mat k_prev = k.clone();
-		pcg_kernel_irls_conv(k_prev, x1, y2, opts, k); // using conv2's
+		pcg_kernel_irls_conv(k_prev, x1, y2, opts, aContext, k); // using conv2's
 		cv::threshold(k, k, 0.0, 1.0, cv::THRESH_TOZERO);
 		cv::Scalar sumk = cv::sum(k);
 		k = k / sumk.val[0];

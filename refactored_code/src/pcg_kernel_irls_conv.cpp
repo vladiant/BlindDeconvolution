@@ -31,7 +31,7 @@
 //
 
 void pcg_kernel_irls_conv(const cv::Mat& k_init, const std::vector<cv::Mat>& X,
-		const std::vector<cv::Mat>& Y, const BlindDeblurOptions& opts,
+		const std::vector<cv::Mat>& Y, const BlindDeblurOptions& opts, const BlindDeblurContext& aContext,
 		cv::Mat& k_out) {
 
 	// Defaults
@@ -45,9 +45,9 @@ void pcg_kernel_irls_conv(const cv::Mat& k_init, const std::vector<cv::Mat>& X,
 //				<< std::endl;
 	}
 
-	float lambda = opts.lambda;
-	float pcg_tol = opts.pcg_tol;
-	int pcg_its = opts.pcg_its;
+	float lambda = aContext.lambda;
+	float pcg_tol = aContext.pcg_tol;
+	int pcg_its = aContext.pcg_its;
 
 	// assume square kernel
 	int ks = k_init.cols;

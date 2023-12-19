@@ -23,7 +23,7 @@
 //
 
 void ms_blind_deconv(cv::Mat& blurredImage, const BlindDeblurOptions& opts,
-		cv::Mat& kernelImage, cv::Mat& deblurredImage);
+		cv::Mat& kernelImage, cv::Mat& deblurredImage, BlindDeblurContext& aContext);
 
 void init_kernel(int minsize, cv::Mat& k);
 

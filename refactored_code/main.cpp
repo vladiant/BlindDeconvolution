@@ -40,8 +40,9 @@ int main(int argc, char* argv[]) {
 	cv::Mat deblurredImage = blurredImage.clone();
 
 	const BlindDeblurOptions opts;
+	BlindDeblurContext context;
 
-	ms_blind_deconv(blurredImage, opts, kernelImage, deblurredImage);
+	ms_blind_deconv(blurredImage, opts, kernelImage, deblurredImage, context);
 
 	cv::namedWindow("Blurred Image", cv::WINDOW_AUTOSIZE);
 	cv::imshow("Blurred Image", blurredImage);

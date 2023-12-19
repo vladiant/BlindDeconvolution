@@ -2,8 +2,6 @@
 
 #include <opencv2/core/types.hpp>
 
-// TODO: Refactor mutable fields
-
 /// TODO: Set these as predefined presets
 /// Note that the min_lambda parameter should be varied for different images to
 /// give better results.
@@ -25,9 +23,6 @@ struct BlindDeblurOptions {
 	/// increasing makes the kernel "thinner".
 	float min_lambda = 100.0;
 
-	/// weight of the likelihood term
-	mutable float lambda = 0.0;
-
 	/// Kernel regularization weight
 	float k_reg_wt = 0.0;
 
@@ -41,11 +36,6 @@ struct BlindDeblurOptions {
 	/// 0 = uniform; 1 = vertical bar; 2 = horizontal bar; 3 = tiny 2-pixel
 	/// wide kernel at coarsest level
 	int kernel_init = 3;
-
-	/// delta step size for ISTA updates; increasing this delta size is not a
-	/// good idea since it may cause divergence. On the other hand decreasing
-	/// it too much will make convergence much slower.
-	mutable float delta = 0.001;
 
 	/// inner iterations for x estimation
 	int x_in_iter = 2;
@@ -68,6 +58,16 @@ struct BlindDeblurOptions {
 	int use_ycbcr = 1;
 
 	int kernel_size = 31;
+};
+
+struct BlindDeblurContext {
+	/// weight of the likelihood term
+	mutable float lambda = 0.0;
+
+	/// delta step size for ISTA updates; increasing this delta size is not a
+	/// good idea since it may cause divergence. On the other hand decreasing
+	/// it too much will make convergence much slower.
+	mutable float delta = 0.001;
 
 	/// Maximal resudual tolerance for CG solution
 	mutable float pcg_tol=1e-4;

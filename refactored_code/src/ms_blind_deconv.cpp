@@ -12,7 +12,7 @@
 #include <iostream>
 
 void ms_blind_deconv(cv::Mat& blurredImage, const BlindDeblurOptions& opts,
-		cv::Mat& kernelImage, cv::Mat& deblurredImage) {
+		cv::Mat& kernelImage, cv::Mat& deblurredImage, BlindDeblurContext& aContext) {
 
 	//
 	// Do multi-scale blind deconvolution given input file name and options
@@ -224,9 +224,9 @@ void ms_blind_deconv(cv::Mat& blurredImage, const BlindDeblurOptions& opts,
 		cv::merge(tmps, ls[s]);
 
 		// call kernel estimation for this scale
-		opts.lambda = opts.min_lambda;
+		aContext.lambda = opts.min_lambda;
 
-		error_flag = ss_blind_deconv(g, ls[s], ks[s], opts.lambda, opts);
+		error_flag = ss_blind_deconv(g, ls[s], ks[s], aContext.lambda, opts, aContext);
 
 		// TODO: Kernel test
 		cv::Mat testDeblur = ys.clone();

@@ -15,7 +15,7 @@
 #include "deconv_opts.h"
 
 void pcg_kernel_irls_conv(const cv::Mat& k_init, const std::vector<cv::Mat>& X,
-		const std::vector<cv::Mat>& Y, const BlindDeblurOptions& opts,
+		const std::vector<cv::Mat>& Y, const BlindDeblurOptions& opts, const BlindDeblurContext& aContext, 
 		cv::Mat& k_out);
 
 void local_cg(const cv::Mat& k, const std::vector<cv::Mat>& X,
