@@ -1,10 +1,3 @@
-/*
- * conv2.cpp
- *
- *  Created on: Feb 16, 2015
- *      Author: vantonov
- */
-
 #include "conv2.h"
 
 #include <opencv2/core/core.hpp>
@@ -13,7 +6,6 @@
 
 #include "pcg_kernel_irls_conv.h"
 
-template<>
 void conv2(const float* imageData, int imageWidth, int imageHeight,
 		int imagePpln, const float* kernelData, int kernelWidth,
 		int kernelHeight, int kernelPpln, float* convolutionData,
