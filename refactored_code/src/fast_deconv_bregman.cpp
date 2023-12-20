@@ -179,9 +179,9 @@ void fast_deconv_bregman(const cv::Mat& f, const cv::Mat& k, float lambda,
 				cv::patchNaNs(wy, 0);
 
 			} else {
-
-				solve_image_bregman(gx + bx, beta, alpha, wx);
-				solve_image_bregman(gy + by, beta, alpha, wy);
+                BregmanImageSolver solver;
+				solver(gx + bx, beta, alpha, wx);
+				solver(gy + by, beta, alpha, wy);
 			}
 
 			//TODO: Debug print

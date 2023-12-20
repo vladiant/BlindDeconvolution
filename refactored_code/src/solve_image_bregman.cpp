@@ -1,24 +1,12 @@
-/*
- * solve_image_bregman.cpp
- *
- *  Created on: Feb 17, 2015
- *      Author: vantonov
- */
-
 #include "solve_image_bregman.h"
 
-#include <vector>
-#include <math.h>
+#include <cmath>
 
-const int WEIGHT_LUT_SIZE = 4096;
-
-std::vector<float> weightLut(WEIGHT_LUT_SIZE);
-
-double weightFunction(double w, double alpha, double beta, double v) {
+double BregmanImageSolver::weightFunction(double w, double alpha, double beta, double v) {
 	return v - alpha * pow(fabs(w), alpha - 2.0) * w / beta;
 }
 
-double solveWeightFunction(double startX, double alpha, double beta, double v) {
+double BregmanImageSolver::solveWeightFunction(double startX, double alpha, double beta, double v) {
 
 	const double EPSILON = 1e-6;
 	const int MAX_ITERATIONS = 100;
@@ -38,7 +26,7 @@ double solveWeightFunction(double startX, double alpha, double beta, double v) {
 
 	} while (currentDiff > EPSILON && iteration < MAX_ITERATIONS);
 
-	if (isnan(solution) != 0) {
+	if (std::isnan(solution)) {
 		solution = 0.0;
 	}
 
@@ -49,7 +37,7 @@ double solveWeightFunction(double startX, double alpha, double beta, double v) {
 	return solution;
 }
 
-void prepareWeightLut(float beta, float alpha) {
+void BregmanImageSolver::prepareWeightLut(float beta, float alpha) {
 
 	static float calculatedBeta = 0;
 
@@ -69,7 +57,7 @@ void prepareWeightLut(float beta, float alpha) {
 
 }
 
-float WeightCalcAlpha(float v, float beta) {
+float BregmanImageSolver::WeightCalcAlpha(float v, float beta) {
 
 	int index = (v + 16) * WEIGHT_LUT_SIZE / 32;
 
@@ -93,7 +81,7 @@ float WeightCalcAlpha(float v, float beta) {
 	}
 }
 
-void solve_image_bregman(const cv::Mat& image, float beta, float alpha,
+void BregmanImageSolver::operator()(const cv::Mat& image, float beta, float alpha,
 		cv::Mat& wx) {
 
 	prepareWeightLut(beta, alpha);
