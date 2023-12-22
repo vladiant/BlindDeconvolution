@@ -10,7 +10,7 @@ void operator()(const float* imageData, int imageWidth, int imageHeight,
 		int convolutionWidth, int convolutionHeight, int convolutionPpln);
 
 private:
-// TODO: Pre-allocation of image buffers
+// TODO: Pre-allocation of image buffers - size of the input image
 cv::Mat imageFFT;
 cv::Mat kernelFFT;
 };
