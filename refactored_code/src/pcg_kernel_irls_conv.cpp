@@ -57,6 +57,7 @@ void pcg_kernel_irls_conv(const cv::Mat& k_init, const std::vector<cv::Mat>& X,
 	std::vector<cv::Mat> flipX(X.size());
 	std::vector<cv::Mat> rhs(X.size());
 
+    Convolver conv;
 	for (unsigned int i = 0; i < X.size(); i++) {
 
 		rhs[i].create(ks, ks, CV_32FC1);
@@ -92,7 +93,7 @@ void pcg_kernel_irls_conv(const cv::Mat& k_init, const std::vector<cv::Mat>& X,
 
 		 */
 
-		conv2((float*) flipX[i].data, flipX[i].cols, flipX[i].rows,
+		conv((float*) flipX[i].data, flipX[i].cols, flipX[i].rows,
 				flipX[i].cols, (float*) Y[i].data, Y[i].cols, Y[i].rows,
 				Y[i].cols, (float*) rhs[i].data, rhs[i].cols, rhs[i].rows,
 				rhs[i].cols);
@@ -223,18 +224,19 @@ void pcg_kernel_core_irls_conv(const cv::Mat& k, const std::vector<cv::Mat>& X,
 	cv::Mat out_l2(k.rows, k.cols, CV_32FC1);
 	out_l2 = cv::Scalar(0.0);
 
+    Convolver conv;
 	for (unsigned int i = 0; i < X.size(); i++) {
 
 		cv::Mat tmp1(X[i].rows - k.rows, X[i].cols - k.cols, CV_32FC1);
 
-		conv2((float*) X[i].data, X[i].cols, X[i].rows, X[i].cols,
+		conv((float*) X[i].data, X[i].cols, X[i].rows, X[i].cols,
 				(float*) k.data, k.cols, k.rows, k.cols, (float*) tmp1.data,
 				tmp1.cols, tmp1.rows, tmp1.cols);
 
 		cv::Mat tmp3(flipX[i].rows - tmp1.rows, flipX[i].cols - tmp1.cols,
 				CV_32FC1);
 
-		conv2((float*) flipX[i].data, flipX[i].cols, flipX[i].rows,
+		conv((float*) flipX[i].data, flipX[i].cols, flipX[i].rows,
 				flipX[i].cols, (float*) tmp1.data, tmp1.cols, tmp1.rows,
 				tmp1.cols, (float*) tmp3.data, tmp3.cols, tmp3.rows, tmp3.cols);
 
