@@ -23,18 +23,19 @@
 //
 
 void ms_blind_deconv(cv::Mat& blurredImage, const BlindDeblurOptions& opts,
-		cv::Mat& kernelImage, cv::Mat& deblurredImage, BlindDeblurContext& aContext);
+                     cv::Mat& kernelImage, cv::Mat& deblurredImage,
+                     BlindDeblurContext& aContext);
 
 void init_kernel(int minsize, cv::Mat& k);
 
 void center_kernel_separate(const cv::Mat& x, const cv::Mat& y,
-		const cv::Mat& k, cv::Mat& x_shifted, cv::Mat& y_shifted,
-		cv::Mat& k_shifted);
+                            const cv::Mat& k, cv::Mat& x_shifted,
+                            cv::Mat& y_shifted, cv::Mat& k_shifted);
 
 void cgDeblur(const cv::Mat& blurredImage, const cv::Mat& kernel,
-		cv::Mat& deblurredImage);
+              cv::Mat& deblurredImage);
 
 void rlDeblur(const cv::Mat& blurredImage, const cv::Mat& kernel,
-		cv::Mat& deblurredImage);
+              cv::Mat& deblurredImage);
 
 #endif /* MS_BLIND_DECONV_H_ */

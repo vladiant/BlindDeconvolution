@@ -13,11 +13,11 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 void fast_deconv_bregman(const cv::Mat& f, const cv::Mat& k, float lambda,
-		float alpha, cv::Mat& g);
+                         float alpha, cv::Mat& g);
 
 void computeConstants(const cv::Mat& f, const cv::Mat& k, const cv::Mat& dx,
-		const cv::Mat& dy, cv::Mat& Ktf, cv::Mat& KtK, cv::Mat& DtD, cv::Mat& Fdx,
-		cv::Mat& Fdy);
+                      const cv::Mat& dy, cv::Mat& Ktf, cv::Mat& KtK,
+                      cv::Mat& DtD, cv::Mat& Fdx, cv::Mat& Fdy);
 
 void invertFftMatrix(cv::Mat& matrixFft);
 

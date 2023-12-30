@@ -5,40 +5,41 @@
 
 #include "pcg_kernel_irls_conv.h"
 
-void Convolver::operator()(const float* imageData, int imageWidth, int imageHeight,
-		int imagePpln, const float* kernelData, int kernelWidth,
-		int kernelHeight, int kernelPpln, float* convolutionData,
-		int convolutionWidth, int convolutionHeight, int convolutionPpln) {
+void Convolver::operator()(const float* imageData, int imageWidth,
+                           int imageHeight, int imagePpln,
+                           const float* kernelData, int kernelWidth,
+                           int kernelHeight, int kernelPpln,
+                           float* convolutionData, int convolutionWidth,
+                           int convolutionHeight, int convolutionPpln) {
+  // TODO: Fix the const cast!
+  cv::Mat image(imageHeight, imageWidth, CV_32FC1, (void*)imageData);
+  cv::Mat kernel(kernelHeight, kernelWidth, CV_32FC1, (void*)kernelData);
+  cv::Mat convolution(convolutionHeight, convolutionWidth, CV_32FC1,
+                      convolutionData);
 
-    // TODO: Fix the const cast!
-	cv::Mat image(imageHeight, imageWidth, CV_32FC1, (void*) imageData);
-	cv::Mat kernel(kernelHeight, kernelWidth, CV_32FC1, (void*) kernelData);
-	cv::Mat convolution(convolutionHeight, convolutionWidth,
-	CV_32FC1, convolutionData);
+  imageFFT.create(image.size(), image.type());
+  cv::dft(image, imageFFT);
 
-	imageFFT.create(image.size(), image.type());
-	cv::dft(image, imageFFT);
+  kernelFFT.create(image.size(), image.type());
+  kernelFFT = cv::Scalar(0);
+  copyKernelToImage((float*)kernel.data, kernel.cols, kernel.rows, kernel.cols,
+                    (float*)kernelFFT.data, kernelFFT.cols, kernelFFT.rows,
+                    kernelFFT.cols);
 
-	kernelFFT.create(image.size(), image.type());
-	kernelFFT = cv::Scalar(0);
-	copyKernelToImage((float*) kernel.data, kernel.cols, kernel.rows,
-			kernel.cols, (float*) kernelFFT.data, kernelFFT.cols,
-			kernelFFT.rows, kernelFFT.cols);
+  cv::dft(kernelFFT, kernelFFT);
 
-	cv::dft(kernelFFT, kernelFFT);
+  cv::mulSpectrums(imageFFT, kernelFFT, imageFFT, cv::DFT_COMPLEX_OUTPUT);
 
-	cv::mulSpectrums(imageFFT, kernelFFT, imageFFT, cv::DFT_COMPLEX_OUTPUT);
+  cv::dft(imageFFT, imageFFT,
+          cv::DFT_INVERSE | cv::DFT_SCALE | cv::DFT_REAL_OUTPUT);
 
-	cv::dft(imageFFT, imageFFT,
-			cv::DFT_INVERSE | cv::DFT_SCALE | cv::DFT_REAL_OUTPUT);
+  imageFFT(cv::Rect(kernelWidth / 2, kernelHeight / 2, convolutionWidth,
+                    convolutionHeight))
+      .copyTo(convolution);
 
-	imageFFT(
-			cv::Rect(kernelWidth / 2, kernelHeight / 2, convolutionWidth,
-					convolutionHeight)).copyTo(convolution);
-
-//	cv::namedWindow("imageFFT", cv::WINDOW_NORMAL);
-//	cv::imshow("imageFFT", imageFFT);
-//	cv::namedWindow("convolution", cv::WINDOW_NORMAL);
-//	cv::imshow("convolution", convolution);
-//	cv::waitKey(0);
+  //	cv::namedWindow("imageFFT", cv::WINDOW_NORMAL);
+  //	cv::imshow("imageFFT", imageFFT);
+  //	cv::namedWindow("convolution", cv::WINDOW_NORMAL);
+  //	cv::imshow("convolution", convolution);
+  //	cv::waitKey(0);
 }
